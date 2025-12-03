@@ -113,5 +113,7 @@ jobs:
         run: |
           echo "$KUBE_CONFIG_DATA" | base64 -d > kubeconfig
           export KUBECONFIG=kubeconfig
+          CLEAN_DEPLOYMENT_NAME=$(printf "%s" "$DEPLOYMENT_NAME" | tr -d '\r' | xargs)
+          echo "Verifying deployment: '$CLEAN_DEPLOYMENT_NAME'"
           kubectl rollout status deployment/$DEPLOYMENT_NAME
           kubectl get pods -o wide
